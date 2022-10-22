@@ -11,7 +11,9 @@ function Nav() {
         <li className='menu__item'>Leaderboard</li>
         <li className='menu__item'>Profile</li>
       </ul>
-      <button className='btn__log-in'>Log In</button>
+      <Link to='/login'>
+        <button className='btn__log-in'>Log In</button>
+      </Link>
     </nav>
   );
 }

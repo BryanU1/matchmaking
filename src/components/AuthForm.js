@@ -1,7 +1,7 @@
-function SignUp() {
+function AuthForm(prop) {
   return (
     <div>
-      <h1>Sign Up</h1>
+      <h1>{prop.title}</h1>
       <form>
         <label for='username'>Username:</label>
         <input id='username' name='username'  />
@@ -13,4 +13,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default AuthForm;
