@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 function Nav() {
   return (
     <nav className='nav nav--theme-black'>
-      <h1 className='h1__home'>Home</h1>
+      <Link to='/' >
+        <h1 className='h1__home'>Home</h1>
+      </Link>
       <ul className='menu'>
         <li className='menu__item'>Play</li>
         <li className='menu__item'>Leaderboard</li>
