@@ -12,8 +12,8 @@ function App() {
       </div>
       <Routes>
         <Route path='/' exact element={<Home />} />
-        <Route path='/signup' element={<AuthForm title='Sign Up' />} />
-        <Route path='/login' element={<AuthForm title='Log In' />} />
+        <Route path='/signup' element={<AuthForm type='Sign Up' />} />
+        <Route path='/login' element={<AuthForm type='Log In' />} />
       </Routes>
     </Router>
   );
