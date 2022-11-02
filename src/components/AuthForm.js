@@ -1,6 +1,6 @@
 function AuthForm(prop) {
   const url = prop.type === 'Sign Up' ?
-    `http://localhost:5000/sign-up` :
+    'http://localhost:5000/sign-up' :
     'http://localhost:5000/log-in';
   return (
     <div>
