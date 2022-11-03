@@ -4,9 +4,6 @@ function LogInForm(prop) {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault()
-    const formData = new FormData();
-    formData.append('username', e.target.username.value);
-    formData.append('password', e.target.password.value);
 
     const data = {
       "username": e.target.username.value,
