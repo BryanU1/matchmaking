@@ -1,6 +1,6 @@
 function Play() {
   return (
-    <p>PLAY: not implemented yet</p>
+    <div>PLAY: NOT IMPLEMENTED YET</div>
   )
 }
 
