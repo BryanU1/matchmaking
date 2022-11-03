@@ -1,4 +1,4 @@
-function Profile() {
+function Profile(prop) {
   return (
     <div>PROFILE: NOT IMPLEMENTED YET</div>
   )

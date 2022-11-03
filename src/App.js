@@ -11,10 +11,33 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
 
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
+
+    if (token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-type': 'application/json'
+        }
+      } 
+      fetch('http://localhost:5000/api/profile', options)
+        .then(res => res.json())
+        .then(json => setUser(json.authData.user))
+        .catch(err => console.log(err));
+    }
+
+    if (!token) {
+      setUser({});
+    }
   }, [token])
+
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user])
 
   return (
     <Router>
@@ -30,7 +53,10 @@ function App() {
         />
         <Route path='/play' element={<Play />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route 
+          path='/profile' 
+          element={<Profile token={token} />} 
+        />
       </Routes>
     </Router>
   );
