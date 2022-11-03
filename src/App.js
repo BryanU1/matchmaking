@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Home from './components/Home';
 import LogInForm from './components/LogInForm';
 import SignUpForm from './components/SignUpForm';
+import Play from './components/Play';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           path='/login' 
           element={<LogInForm setToken={setToken} />} 
         />
+        <Route path='/play' element={<Play />} />
       </Routes>
     </Router>
   );

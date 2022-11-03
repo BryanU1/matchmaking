@@ -1,20 +1,30 @@
+@mixin hover {
+  cursor: pointer;
+  font-weight: bolder;
+}
+
 .nav {
   display: flex;
   background-color: rgb(65, 65, 65);
   color: white;
   height: 10vh;
   align-items: center;
+  justify-content: space-between;
 }
 
-a {
+.nav__items {
+  display: flex;
+  align-items: center;
+}
+
+.nav__link {
   text-decoration: none;
+  color: white;
 }
 
 .h1__home {
   margin: 0 30px;
-  vertical-align: center;
   font-size: 25px;
-  color: white;
 }
 
 .menu {
@@ -29,7 +39,18 @@ a {
 }
 
 .btn__log-in {
-  margin-left: auto;
   margin-right: 30px;
+
+  &:hover {
+    @include hover;
+  }
+}
+
+.btn__log-out {
+  margin-right: 30px;
+
+  &:hover {
+    @include hover;
+  }
 }
 
