@@ -16,6 +16,10 @@
   text-decoration: none;
   color: white;
 }
+.nav__link:hover {
+  cursor: pointer;
+  font-weight: bolder;
+}
 
 .h1__home {
   margin: 0 30px;

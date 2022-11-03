@@ -6,6 +6,7 @@ import LogInForm from './components/LogInForm';
 import SignUpForm from './components/SignUpForm';
 import Play from './components/Play';
 import Leaderboard from './components/Leaderboard';
+import Profile from './components/Profile';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         />
         <Route path='/play' element={<Play />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </Router>
   );

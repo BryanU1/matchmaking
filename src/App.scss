@@ -20,6 +20,10 @@
 .nav__link {
   text-decoration: none;
   color: white;
+
+  &:hover {
+    @include hover
+  }
 }
 
 .h1__home {

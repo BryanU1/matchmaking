@@ -34,7 +34,9 @@ function Nav(prop) {
           <Link to='/leaderboard' className='nav__link'>
             <li className='menu__item'>Leaderboard</li>
           </Link>
-          <li className='menu__item'>Profile</li>
+          <Link to='/profile' className='nav__link'>
+            <li className='menu__item'>Profile</li>
+          </Link>
         </ul>
       </div>
       {user}
