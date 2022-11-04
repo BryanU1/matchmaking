@@ -26,7 +26,10 @@ function App() {
       } 
       fetch('http://localhost:5000/api/profile', options)
         .then(res => res.json())
-        .then(json => setUser(json.authData.user))
+        .then(json => {
+          setUser(json.authData.user);
+          console.log(user);
+        })
         .catch(err => console.log(err));
     }
 
@@ -55,7 +58,7 @@ function App() {
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
-          element={<Profile token={token} />} 
+          element={<Profile token={token} user={user} />} 
         />
       </Routes>
     </Router>
