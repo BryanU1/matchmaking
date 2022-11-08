@@ -8,10 +8,15 @@ import Play from './components/Play';
 import Leaderboard from './components/Leaderboard';
 import Profile from './components/Profile';
 import { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
+
+  useEffect(() => {
+    const socket = io('http://localhost:5000/');
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
