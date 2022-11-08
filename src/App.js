@@ -28,7 +28,6 @@ function App() {
         .then(res => res.json())
         .then(json => {
           setUser(json.authData.user);
-          console.log(user);
         })
         .catch(err => console.log(err));
     }
@@ -54,7 +53,7 @@ function App() {
           path='/login' 
           element={<LogInForm setToken={setToken} />} 
         />
-        <Route path='/play' element={<Play />} />
+        <Route path='/play' element={<Play token={token} />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
