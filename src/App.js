@@ -10,14 +10,12 @@ import Profile from './components/Profile';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
+const socket = io('http://localhost:5000/');
+
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
-
-  useEffect(() => {
-    const socket = io('http://localhost:5000/');
-  }, [])
-
+  
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
 
@@ -35,6 +33,7 @@ function App() {
           setUser(json.authData.user);
         })
         .catch(err => console.log(err));
+      
     }
 
     if (!token) {
@@ -58,7 +57,7 @@ function App() {
           path='/login' 
           element={<LogInForm setToken={setToken} />} 
         />
-        <Route path='/play' element={<Play token={token} />} />
+        <Route path='/play' element={<Play token={token} socket={socket} />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
