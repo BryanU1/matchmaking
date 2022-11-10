@@ -1,9 +1,6 @@
 function Play(prop) {
   const handleClick = () => {
-    prop.socket.emit("join queue", {
-      token: prop.token
-    });
-    
+    prop.socket.emit("join queue", prop.token);
   }
   return (
     <div>

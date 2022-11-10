@@ -45,6 +45,12 @@ function App() {
     localStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
+  useEffect(() => {
+    socket.on('error', (err) => {
+      console.log(err);
+    })
+  }, [])
+
   return (
     <Router>
       <div className="App">
@@ -55,9 +61,13 @@ function App() {
         <Route path='/signup' element={<SignUpForm />} />
         <Route 
           path='/login' 
-          element={<LogInForm setToken={setToken} />} 
+          element={
+            <LogInForm setToken={setToken} />
+          } 
         />
-        <Route path='/play' element={<Play token={token} socket={socket} />} />
+        <Route 
+          path='/play' 
+          element={<Play token={token} socket={socket} />} />
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
