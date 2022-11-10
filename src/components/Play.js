@@ -6,7 +6,12 @@ function Play(prop) {
     
   }
   return (
-    <button onClick={handleClick}>Join Queue</button>
+    <div>
+      {prop.token
+        ? <button onClick={handleClick}>Join Queue</button>
+        : <div>Not logged in</div>
+      }
+    </div>
   )
 }
 
