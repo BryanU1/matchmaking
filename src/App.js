@@ -15,6 +15,7 @@ const socket = io('http://localhost:5000/');
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  const [inQueue, setInQueue] = useState(false);
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -49,6 +50,10 @@ function App() {
     socket.on('error', (err) => {
       console.log(err);
     })
+
+    socket.on('stop queue', (match) => {
+      setInQueue(false);
+    })
   }, [])
 
   return (
@@ -67,7 +72,15 @@ function App() {
         />
         <Route 
           path='/play' 
-          element={<Play token={token} socket={socket} />} />
+          element={
+            <Play 
+              token={token} 
+              socket={socket} 
+              inQueue={inQueue}
+              setInQueue={setInQueue} 
+            />
+          } 
+        />
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
