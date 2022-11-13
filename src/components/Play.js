@@ -1,14 +1,18 @@
 function Play(prop) {
   let queueUI;
-  const handleClick = () => {
+  const handleQueue = () => {
     prop.setInQueue(true);
     prop.socket.emit("join queue", prop.token);
   }
+  const handleLeave = () => {
+    prop.setInQueue(false);
+    prop.socket.emit("leave queue");
+  }
 
-  if (prop.token && prop.inQueue) {
-    queueUI = <p>Currently in queue...</p>
+  if (prop.inQueue) {
+    queueUI = <button onClick={handleLeave}>Leave Queue</button>
   } else if (prop.token) {
-    queueUI = <button onClick={handleClick}>Join Queue</button>
+    queueUI = <button onClick={handleQueue}>Join Queue</button>
   } else {
     queueUI = <div>Not logged in</div>
   }
