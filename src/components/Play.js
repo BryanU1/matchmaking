@@ -2,11 +2,11 @@ function Play(prop) {
   let queueUI;
   const handleQueue = () => {
     prop.setInQueue(true);
-    prop.socket.emit("join queue", prop.token);
+    prop.socket.emit('join queue', prop.token);
   }
   const handleLeave = () => {
     prop.setInQueue(false);
-    prop.socket.emit("leave queue");
+    prop.socket.emit('leave queue');
   }
 
   if (prop.inQueue) {

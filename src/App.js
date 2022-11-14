@@ -7,6 +7,7 @@ import SignUpForm from './components/SignUpForm';
 import Play from './components/Play';
 import Leaderboard from './components/Leaderboard';
 import Profile from './components/Profile';
+import MatchForm from './components/MatchForm';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
@@ -16,6 +17,8 @@ function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
   const [inQueue, setInQueue] = useState(false);
+  const [display, setDisplay] = useState(false);
+  const [lobbyID, setLobbyID] = useState(JSON.parse(localStorage.getItem('lobby id')) || '');
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -47,11 +50,18 @@ function App() {
   }, [user])
 
   useEffect(() => {
+    localStorage.setItem('lobby id', JSON.stringify(lobbyID));
+  }, [lobbyID])
+
+  useEffect(() => {
     socket.on('error', (err) => {
       console.log(err);
     })
 
-    socket.on('stop queue', (match) => {
+    socket.on('match found', (id) => {
+      console.log(id);
+      setLobbyID(id);
+      setDisplay(true);
       setInQueue(false);
     })
   }, [])
@@ -87,6 +97,7 @@ function App() {
           element={<Profile token={token} user={user} />} 
         />
       </Routes>
+      <MatchForm display={display} id={lobbyID} socket={socket} />
     </Router>
   );
 }
