@@ -17,8 +17,8 @@ function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
   const [inQueue, setInQueue] = useState(false);
-  const [display, setDisplay] = useState(false);
-  const [lobbyID, setLobbyID] = useState(JSON.parse(localStorage.getItem('lobby id')) || '');
+  const [display, setDisplay] = useState(JSON.parse(localStorage.getItem('display')) || false);
+  const [id, setID] = useState(JSON.parse(localStorage.getItem('id')) || '');
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -50,8 +50,8 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    localStorage.setItem('lobby id', JSON.stringify(lobbyID));
-  }, [lobbyID])
+    localStorage.setItem('id', JSON.stringify(id));
+  }, [id])
 
   useEffect(() => {
     socket.on('error', (err) => {
@@ -60,9 +60,18 @@ function App() {
 
     socket.on('match found', (id) => {
       console.log(id);
-      setLobbyID(id);
+      setID(id);
       setDisplay(true);
       setInQueue(false);
+    })
+
+    socket.on('cancel match', () => {
+      setDisplay(false);
+      setID('');
+    })
+
+    socket.on('start match', () => {
+      setDisplay(false);
     })
   }, [])
 
@@ -97,7 +106,12 @@ function App() {
           element={<Profile token={token} user={user} />} 
         />
       </Routes>
-      <MatchForm display={display} id={lobbyID} socket={socket} />
+      <MatchForm 
+        display={display}
+        setDisplay={setDisplay}
+        id={id} 
+        socket={socket} 
+      />
     </Router>
   );
 }

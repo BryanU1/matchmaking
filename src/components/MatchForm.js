@@ -1,13 +1,17 @@
 function MatchForm(prop) {
   const handleClick = (e) => {
-    console.dir(e.target.textContent);
+    if (e.target.textContent === 'Accept') {
+      prop.socket.emit('check player status', true, prop.id);
+    } else {
+      prop.socket.emit('check player status', false, prop.id);
+    }
   }
   return (
-    <div className={prop.display ? 'modal' : 'modal'}>
+    <div className={prop.display ? 'modal' : 'modal hidden'}>
       <div className='form__match'>
         <h1>Match Found</h1>
         <button onClick={handleClick}>Accept</button>
-        <button>Decline</button>
+        <button onClick={handleClick}>Decline</button>
       </div>
     </div>
   );
