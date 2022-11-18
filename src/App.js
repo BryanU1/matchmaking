@@ -124,6 +124,7 @@ function App() {
       <Game 
         inGame={inGame}
         socket={socket}
+        id={id}
       />
     </Router>
   );

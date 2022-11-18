@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 function Game(prop) {
+  const [isCorrect, setIsCorrect] = useState(false);
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
@@ -17,17 +18,25 @@ function Game(prop) {
       setInput(input + e.key.toUpperCase());
     }
     if (e.key === 'Enter' && input.length === 5) {
-      const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${input}`
+      const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${input}`;
       fetch(url)
         .then(res => res.json())
         .then(json => {
           if (json[0].word) {
+            if (chosen === input) {
+              setIsCorrect(true);
+              prop.socket.emit('correct answer');
+            }
             const arr = words.concat([input]);
             setWords(arr);
-            setCurrentRow(currentRow + 1);
             setInput('');
+            if (currentRow === 5 && !isCorrect) {
+              prop.socket.emit('stalemate', prop.id);
+            }
+            setCurrentRow(currentRow + 1);
           }
         })
+        .catch(err => console.log(err))
     } 
   }
   
