@@ -47,6 +47,10 @@ function Game(prop) {
       setCurrentRow(currentRow + 1);
       setInput('');
     }) 
+    return () => {
+      prop.socket.off('end match');
+      prop.socket.off('incorrect');
+    }
     // eslint-disable-next-line
   }, [currentRow])
   
