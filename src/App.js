@@ -21,6 +21,7 @@ function App() {
   const [display, setDisplay] = useState(JSON.parse(localStorage.getItem('display')) || false);
   const [id, setID] = useState(JSON.parse(localStorage.getItem('id')) || '');
   const [inGame, setInGame] = useState(false);
+  const [timer, setTimer] = useState();
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -55,9 +56,14 @@ function App() {
     localStorage.setItem('id', JSON.stringify(id));
   }, [id])
 
-  // useEffect(() => {
-  //   localStorage.setItem('inGame', JSON.stringify(inGame));
-  // }, [inGame])
+  useEffect(() => {
+    if (inGame) {
+      let timerID = setTimeout(() => {
+        socket.emit('stalemate', id);
+      }, 5*60*1000);
+      setTimer(timerID);      
+    }
+  }, [inGame, id])
 
   useEffect(() => {
     socket.on('error', (err) => {
@@ -65,7 +71,6 @@ function App() {
     })
 
     socket.on('match found', (id) => {
-      console.log(id);
       setID(id);
       setDisplay(true);
       setInQueue(false);
@@ -80,6 +85,12 @@ function App() {
       setDisplay(false);
       setInGame(true);
     })
+    return () => {
+      socket.off('error');
+      socket.off('match found');
+      socket.off('cancel match');
+      socket.off('start match');
+    };
   }, [])
 
   return (
@@ -125,6 +136,7 @@ function App() {
         socket={socket}
         id={id}
         setID={setID}
+        timer={timer}
       />
     </Router>
   );

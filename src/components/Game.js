@@ -31,6 +31,7 @@ function Game(prop) {
   useEffect(() => {
     prop.socket.on('end match', result => {
       console.log('match result: ' + result);
+      clearTimeout(prop.timer);
       setWords([]);
       setInput('');
       setCurrentRow(0);
@@ -52,15 +53,17 @@ function Game(prop) {
       prop.socket.off('incorrect');
     }
     // eslint-disable-next-line
-  }, [currentRow])
+  }, [currentRow, prop.timer])
   
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    if (prop.inGame) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     }
     // eslint-disable-next-line
-  }, [input, currentRow])
+  }, [input, currentRow, prop.inGame])
   
   const selectedCols = colArray.map((index) => (
     <div className='container__col selected'>
