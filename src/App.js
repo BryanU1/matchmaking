@@ -12,9 +12,7 @@ import Game from './components/Game';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000/', {
-  reconnection: false
-});
+const socket = io('http://localhost:5000/');
 
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
@@ -22,7 +20,7 @@ function App() {
   const [inQueue, setInQueue] = useState(false);
   const [display, setDisplay] = useState(JSON.parse(localStorage.getItem('display')) || false);
   const [id, setID] = useState(JSON.parse(localStorage.getItem('id')) || '');
-  const [inGame, setInGame] = useState(JSON.parse(localStorage.getItem('inGame')) || true);
+  const [inGame, setInGame] = useState(false);
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -57,9 +55,9 @@ function App() {
     localStorage.setItem('id', JSON.stringify(id));
   }, [id])
 
-  useEffect(() => {
-    localStorage.setItem('inGame', JSON.stringify(inGame));
-  }, [inGame])
+  // useEffect(() => {
+  //   localStorage.setItem('inGame', JSON.stringify(inGame));
+  // }, [inGame])
 
   useEffect(() => {
     socket.on('error', (err) => {
@@ -78,7 +76,7 @@ function App() {
       setID('');
     })
 
-    socket.on('start match', () => {
+    socket.on('start match', (word) => {
       setDisplay(false);
       setInGame(true);
     })
@@ -123,8 +121,10 @@ function App() {
       />
       <Game 
         inGame={inGame}
+        setInGame={setInGame}
         socket={socket}
         id={id}
+        setID={setID}
       />
     </Router>
   );

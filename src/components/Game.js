@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 
 function Game(prop) {
-  const [isCorrect, setIsCorrect] = useState(false);
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
   const rowArray = [0, 1, 2, 3, 4, 5];
   const colArray = [0, 1, 2, 3, 4];
-  const chosen = 'WORLD';
   
   const handleKeyDown = (e) => {
     const validInputs = 'abcdefghijklmnopqrstuvwxyz'
@@ -23,22 +21,34 @@ function Game(prop) {
         .then(res => res.json())
         .then(json => {
           if (json[0].word) {
-            if (chosen === input) {
-              setIsCorrect(true);
-              prop.socket.emit('correct answer');
-            }
-            const arr = words.concat([input]);
-            setWords(arr);
-            setInput('');
-            if (currentRow === 5 && !isCorrect) {
-              prop.socket.emit('stalemate', prop.id);
-            }
-            setCurrentRow(currentRow + 1);
+            prop.socket.emit('check answer', prop.id, input);
           }
         })
         .catch(err => console.log(err))
     } 
   }
+
+  useEffect(() => {
+    prop.socket.on('end match', result => {
+      console.log('match result: ' + result);
+      setWords([]);
+      setInput('');
+      setCurrentRow(0);
+      prop.setInGame(false);
+      prop.setID('');
+    })
+
+    prop.socket.on('incorrect', array => {
+      if (currentRow === 5) {
+        console.log('stalemate reached')
+        prop.socket.emit('stalemate', prop.id);
+      }
+      setWords(words.concat([array]));
+      setCurrentRow(currentRow + 1);
+      setInput('');
+    }) 
+    // eslint-disable-next-line
+  }, [currentRow])
   
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -46,7 +56,7 @@ function Game(prop) {
       document.removeEventListener('keydown', handleKeyDown);
     }
     // eslint-disable-next-line
-  }, [input])
+  }, [input, currentRow])
   
   const selectedCols = colArray.map((index) => (
     <div className='container__col selected'>
@@ -59,29 +69,11 @@ function Game(prop) {
   ));
 
   const coloredCols = index => {
-    const cols = colArray.map(colIndex => {
-      if (chosen.charAt(colIndex) === words[index].charAt(colIndex)){
-        return (
-          <div className='container__col green'>
-            {words[index].charAt(colIndex)}
-          </div>
-        )
-      }
-      for (let i = 0; i < 5; i++) {
-        if (chosen.charAt(i) === words[index].charAt(colIndex)) {
-          return (
-            <div className='container__col yellow'>
-              {words[index].charAt(colIndex)}
-            </div>
-          )
-        }
-      }
-      return (
-        <div className='container__col gray'>
-          {words[index].charAt(colIndex)}
-        </div>
-      )
-    })
+    const cols = colArray.map(colIndex => (
+      <div className={`container__col ${words[index][colIndex].color}`}>
+        {words[index][colIndex].letter}
+      </div>
+    ))
     return cols;
   }
 
