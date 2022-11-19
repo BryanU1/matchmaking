@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import Result from './Result';
 
 function Game(prop) {
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
+  const [result, setResult] = useState({});
+  const [display, setDisplay] = useState(false);
   const [sec, setSec] = useState(0);
   const [min, setMin] = useState(5);
 
@@ -48,17 +51,20 @@ function Game(prop) {
   useEffect(() => {
     prop.socket.on('end match', result => {
       console.log('match result: ' + result);
+      setResult(result);
       clearTimeout(prop.timer);
       setWords([]);
+      setSec(0);
+      setMin(0);
       setInput('');
       setCurrentRow(0);
+      setDisplay(true);
       prop.setInGame(false);
       prop.setID('');
     })
 
     prop.socket.on('incorrect', array => {
       if (currentRow === 5) {
-        console.log('stalemate reached')
         prop.socket.emit('stalemate', prop.id);
       }
       setWords(words.concat([array]));
@@ -112,11 +118,12 @@ function Game(prop) {
   ));
 
   return (
-    <div className={prop.inGame ? 'div__game' : 'div__game hidden'}>
+    <div className='div__game'>
       <div className='container__game'>
         <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
         <div>{rows}</div>
       </div>
+      <Result result={result} user={prop.user} setResult={setResult} display={display} />
     </div>
   )
 }

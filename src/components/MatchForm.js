@@ -8,7 +8,7 @@ function MatchForm(prop) {
   }
   return (
     <div className={prop.display ? 'modal' : 'modal hidden'}>
-      <div className='form__match'>
+      <div className='modal__content'>
         <h1>Match Found</h1>
         <button onClick={handleClick}>Accept</button>
         <button onClick={handleClick}>Decline</button>

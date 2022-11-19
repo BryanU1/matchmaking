@@ -138,7 +138,8 @@ function App() {
               id={id}
               setID={setID}
               timer={timer}
-             />
+              user={user}
+            />
           }
         />
       </Routes>
