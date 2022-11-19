@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+
 function Play(prop) {
+  const navigate = useNavigate();
   let queueUI;
   const handleQueue = () => {
     prop.setInQueue(true);
@@ -8,6 +12,13 @@ function Play(prop) {
     prop.setInQueue(false);
     prop.socket.emit('leave queue');
   }
+
+  useEffect(() => {
+    if (prop.inGame) {
+      navigate(`/match/${prop.id}`)
+    }
+    // eslint-disable-next-line
+  }, [prop.inGame, prop.id])
 
   if (prop.inQueue) {
     queueUI = <button onClick={handleLeave}>Leave Queue</button>

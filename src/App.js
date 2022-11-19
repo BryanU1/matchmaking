@@ -12,7 +12,9 @@ import Game from './components/Game';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000/');
+const socket = io('http://localhost:5000/', {
+  reconnection: false
+});
 
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
@@ -63,6 +65,7 @@ function App() {
       }, 5*60*1000);
       setTimer(timerID);      
     }
+    // eslint-disable-next-line
   }, [inGame, id])
 
   useEffect(() => {
@@ -115,6 +118,8 @@ function App() {
               socket={socket} 
               inQueue={inQueue}
               setInQueue={setInQueue} 
+              inGame={inGame}
+              id={id}
             />
           } 
         />
@@ -123,20 +128,25 @@ function App() {
           path='/profile' 
           element={<Profile token={token} user={user} />} 
         />
+        <Route 
+          path={`/match/:id`}
+          element={
+            <Game 
+              inGame={inGame}
+              setInGame={setInGame}
+              socket={socket}
+              id={id}
+              setID={setID}
+              timer={timer}
+             />
+          }
+        />
       </Routes>
       <MatchForm 
         display={display}
         setDisplay={setDisplay}
         id={id} 
         socket={socket} 
-      />
-      <Game 
-        inGame={inGame}
-        setInGame={setInGame}
-        socket={socket}
-        id={id}
-        setID={setID}
-        timer={timer}
       />
     </Router>
   );

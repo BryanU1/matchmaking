@@ -4,6 +4,9 @@ function Game(prop) {
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
+  const [sec, setSec] = useState(0);
+  const [min, setMin] = useState(5);
+
   const rowArray = [0, 1, 2, 3, 4, 5];
   const colArray = [0, 1, 2, 3, 4];
   
@@ -29,6 +32,20 @@ function Game(prop) {
   }
 
   useEffect(() => {
+    const countID = setInterval(() => {
+      if (sec > 0) {
+        setSec(sec - 1);
+      } else if (min !== 0) {
+        setSec(59);
+        setMin(min - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(countID);
+    }
+  }, [sec, min])
+
+  useEffect(() => {
     prop.socket.on('end match', result => {
       console.log('match result: ' + result);
       clearTimeout(prop.timer);
@@ -48,22 +65,21 @@ function Game(prop) {
       setCurrentRow(currentRow + 1);
       setInput('');
     }) 
+
     return () => {
       prop.socket.off('end match');
       prop.socket.off('incorrect');
     }
     // eslint-disable-next-line
-  }, [currentRow, prop.timer])
+  }, [currentRow])
   
   useEffect(() => {
-    if (prop.inGame) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     }
     // eslint-disable-next-line
-  }, [input, currentRow, prop.inGame])
+  }, [input, currentRow])
   
   const selectedCols = colArray.map((index) => (
     <div className='container__col selected'>
@@ -98,7 +114,8 @@ function Game(prop) {
   return (
     <div className={prop.inGame ? 'div__game' : 'div__game hidden'}>
       <div className='container__game'>
-        {rows}
+        <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
+        <div>{rows}</div>
       </div>
     </div>
   )
