@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom';
 
 function Result(prop) {
-  const handleClick = () => {
-    prop.result({});
-  }
-
   let heading;
   if (prop.result.winner === prop.user.username) {
     heading = 'You Win';
@@ -20,7 +16,7 @@ function Result(prop) {
         <p>Answer: {prop.result.word}</p>
         <p>Current Rating:</p>
         <Link to='/play'>
-          <button onClick={handleClick}>Leave</button>
+          <button>Leave</button>
         </Link>
       </div>
     </div>

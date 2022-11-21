@@ -21,7 +21,7 @@ function Game(prop) {
     if (validInputs.includes(e.key) && input.length < 5) {
       setInput(input + e.key.toUpperCase());
     }
-    if (e.key === 'Enter' && input.length === 5) {
+    if (e.key === 'Enter' && input.length === 5 && currentRow <= 5) {
       const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${input}`;
       fetch(url)
         .then(res => res.json())
