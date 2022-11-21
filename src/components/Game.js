@@ -61,6 +61,7 @@ function Game(prop) {
       setDisplay(true);
       prop.setInGame(false);
       prop.setID('');
+      prop.setStartCount(3);
     })
 
     prop.socket.on('incorrect', array => {

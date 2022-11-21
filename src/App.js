@@ -12,9 +12,7 @@ import Game from './components/Game';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000/', {
-  reconnection: false
-});
+const socket = io('http://localhost:5000/');
 
 function App() {
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
@@ -24,6 +22,8 @@ function App() {
   const [id, setID] = useState(JSON.parse(localStorage.getItem('id')) || '');
   const [inGame, setInGame] = useState(false);
   const [timer, setTimer] = useState();
+  const [isCounting, setIsCounting] = useState(false);
+  const [startCount, setStartCount] = useState(3);
   
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -58,6 +58,7 @@ function App() {
     localStorage.setItem('id', JSON.stringify(id));
   }, [id])
 
+  // move this to Game.js
   useEffect(() => {
     if (inGame) {
       let timerID = setTimeout(() => {
@@ -84,10 +85,16 @@ function App() {
       setID('');
     })
 
-    socket.on('start match', (word) => {
-      setDisplay(false);
-      setInGame(true);
+    socket.on('start match', () => {
+      console.log('Match starting in 3 seconds.');
+      setIsCounting(true);
+      setTimeout(() => {
+        setDisplay(false);
+        setInGame(true);
+        setIsCounting(false);
+      }, 3000);
     })
+    
     return () => {
       socket.off('error');
       socket.off('match found');
@@ -139,6 +146,7 @@ function App() {
               setID={setID}
               timer={timer}
               user={user}
+              setStartCount={setStartCount}
             />
           }
         />
@@ -148,6 +156,9 @@ function App() {
         setDisplay={setDisplay}
         id={id} 
         socket={socket} 
+        isCounting={isCounting}
+        startCount={startCount}
+        setStartCount={setStartCount}
       />
     </Router>
   );
