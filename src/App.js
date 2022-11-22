@@ -79,14 +79,15 @@ function App() {
       setDisplay(true);
       setInQueue(false);
     })
-
+    
     socket.on('cancel match', () => {
+      socket.emit('turn off listener');
       setDisplay(false);
       setID('');
     })
 
     socket.on('start match', () => {
-      console.log('Match starting in 3 seconds.');
+      socket.emit('turn off listener');
       setIsCounting(true);
       setTimeout(() => {
         setDisplay(false);

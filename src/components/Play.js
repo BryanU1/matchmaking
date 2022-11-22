@@ -11,6 +11,7 @@ function Play(prop) {
   const handleLeave = () => {
     prop.setInQueue(false);
     prop.socket.emit('leave queue');
+    prop.socket.emit('turn off listener');
   }
 
   useEffect(() => {
