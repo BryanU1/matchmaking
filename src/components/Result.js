@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 function Result(prop) {
   let heading;
   if (prop.result.winner === prop.user.username) {
@@ -9,15 +7,16 @@ function Result(prop) {
   } else {
     heading = 'You Lost'
   }
+  const handleClick = () => {
+    prop.setID('');
+  }
   return (
     <div className={prop.display ? 'modal' : 'modal hidden'}>
       <div className="modal__content">
         <h1>{heading}</h1>
         <p>Answer: {prop.result.word}</p>
         <p>Current Rating:</p>
-        <Link to='/play'>
-          <button>Leave</button>
-        </Link>
+        <button onClick={handleClick}>Leave</button>
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
   const [inQueue, setInQueue] = useState(false);
   const [display, setDisplay] = useState(JSON.parse(localStorage.getItem('display')) || false);
-  const [id, setID] = useState(JSON.parse(localStorage.getItem('id')) || '');
+  const [id, setID] = useState('');
   const [inGame, setInGame] = useState(false);
   const [timer, setTimer] = useState();
   const [isCounting, setIsCounting] = useState(false);
@@ -54,10 +54,6 @@ function App() {
     localStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
-  useEffect(() => {
-    localStorage.setItem('id', JSON.stringify(id));
-  }, [id])
-
   // move this to Game.js
   useEffect(() => {
     if (inGame) {
@@ -81,13 +77,14 @@ function App() {
     })
     
     socket.on('cancel match', () => {
-      socket.emit('turn off listener');
+      socket.emit('turn off pairing listener');
       setDisplay(false);
       setID('');
     })
 
     socket.on('start match', () => {
-      socket.emit('turn off listener');
+      socket.emit('turn off pairing listener');
+      socket.emit('turn on player disconnected listener');
       setIsCounting(true);
       setTimeout(() => {
         setDisplay(false);

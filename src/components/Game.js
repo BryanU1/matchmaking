@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Result from './Result';
 
 function Game(prop) {
+  const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
   const [result, setResult] = useState({});
   const [display, setDisplay] = useState(false);
+  const [disconnect, setDisconnect] = useState(false);
   const [sec, setSec] = useState(0);
   const [min, setMin] = useState(5);
 
   const rowArray = [0, 1, 2, 3, 4, 5];
   const colArray = [0, 1, 2, 3, 4];
-  
+
   const handleKeyDown = (e) => {
     const validInputs = 'abcdefghijklmnopqrstuvwxyz'
     if (e.key === 'Backspace' && input.length > 0) {
@@ -35,6 +38,13 @@ function Game(prop) {
   }
 
   useEffect(() => {
+    if (!prop.id) {
+      navigate('/');
+    }
+    // eslint-disable-next-line
+  }, [prop.id])
+
+  useEffect(() => {
     const countID = setInterval(() => {
       if (sec > 0) {
         setSec(sec - 1);
@@ -50,7 +60,7 @@ function Game(prop) {
 
   useEffect(() => {
     prop.socket.on('end match', result => {
-      console.log('match result: ' + result);
+      prop.socket.emit('turn off player disconnected listener');
       setResult(result);
       clearTimeout(prop.timer);
       setWords([]);
@@ -60,7 +70,6 @@ function Game(prop) {
       setCurrentRow(0);
       setDisplay(true);
       prop.setInGame(false);
-      prop.setID('');
       prop.setStartCount(3);
     })
 
@@ -73,9 +82,15 @@ function Game(prop) {
       setInput('');
     }) 
 
+    prop.socket.on('player disconnected', () => {
+      setDisconnect(true);
+      console.log('A player has left the match');
+    })
+
     return () => {
       prop.socket.off('end match');
       prop.socket.off('incorrect');
+      prop.socket.off('player disconnected');
     }
     // eslint-disable-next-line
   }, [currentRow])
@@ -121,10 +136,11 @@ function Game(prop) {
   return (
     <div className='div__game'>
       <div className='container__game'>
+        <div>{disconnect ? 'Opponent Disconnected' : ''}</div>
         <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
         <div>{rows}</div>
       </div>
-      <Result result={result} user={prop.user} setResult={setResult} display={display} />
+      <Result result={result} user={prop.user} setResult={setResult} display={display} setID={prop.setID} />
     </div>
   )
 }
