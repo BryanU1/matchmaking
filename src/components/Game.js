@@ -6,13 +6,18 @@ function Game(prop) {
   const navigate = useNavigate();
   const [input, setInput] = useState('');
   const [words, setWords] = useState([]);
+  const [opponentTracker, setTracker] = useState([]);
   const [currentRow, setCurrentRow] = useState(0);
   const [result, setResult] = useState({});
   const [display, setDisplay] = useState(false);
   const [disconnect, setDisconnect] = useState(false);
   const [sec, setSec] = useState(0);
   const [min, setMin] = useState(5);
-
+  const keyRow1= [{button: 'Q', color: ''},{button: 'W', color: ''},{button: 'E', color: ''},{button: 'R', color: ''},{button: 'T', color: ''},{button: 'Y', color: ''},{button: 'U', color: ''},{button: 'I', color: ''},{button: 'O', color: ''},{button: 'P', color: ''}];
+  const keyRow2 = [{button: 'A', color: ''},{button: 'S', color: ''},{button: 'D', color: ''},{button: 'F', color: ''},{button: 'G', color: ''},{button: 'H', color: ''},{button: 'J', color: ''},{button: 'K', color: ''},{button: 'L', color: ''}];
+  const keyRow3 = [{button: 'Enter', color: ''},{button: 'Z', color: ''},{button: 'X', color: ''},{button: 'C', color: ''},{button: 'V', color: ''},{button: 'B', color: ''},{button: 'N', color: ''},{button: 'M', color: ''},{button: 'Delete', color: ''}];
+  const [layout, setLayout] = useState([keyRow1,keyRow2,keyRow3]);
+  
   const rowArray = [0, 1, 2, 3, 4, 5];
   const colArray = [0, 1, 2, 3, 4];
 
@@ -64,6 +69,7 @@ function Game(prop) {
       setResult(result);
       clearTimeout(prop.timer);
       setWords([]);
+      setTracker([]);
       setSec(0);
       setMin(0);
       setInput('');
@@ -73,13 +79,36 @@ function Game(prop) {
       prop.setStartCount(3);
     })
 
-    prop.socket.on('incorrect', array => {
-      if (currentRow === 5) {
-        prop.socket.emit('stalemate', prop.id);
+    prop.socket.on('incorrect', obj => {
+      if (obj.user === prop.user.username) {
+        if (currentRow === 5) {
+          prop.socket.emit('stalemate', prop.id);
+        }
+        outerLoop: for (const char of obj.arr) {
+          for (let i = 0; i < layout.length; i++) {
+            for (let j = 0; j < layout[i].length; j++) {
+              if (char.letter === layout[i][j].button) {
+                if (layout[i][j].color === 'green') {
+                  continue outerLoop;
+                } else if (layout[i][j].color === 'yellow') {
+                  if (char.color === 'green') {
+                    layout[i][j].color = char.color;
+                  }
+                } else {
+                  layout[i][j].color = char.color;
+                }
+                continue outerLoop;
+              }  
+            }
+          }
+        }
+        setLayout(layout);
+        setWords(words.concat([obj.arr]));
+        setCurrentRow(currentRow + 1);
+        setInput('');
+      } else {
+        setTracker(opponentTracker.concat([obj.arr]));
       }
-      setWords(words.concat([array]));
-      setCurrentRow(currentRow + 1);
-      setInput('');
     }) 
 
     prop.socket.on('player disconnected', () => {
@@ -93,7 +122,7 @@ function Game(prop) {
       prop.socket.off('player disconnected');
     }
     // eslint-disable-next-line
-  }, [currentRow])
+  }, [currentRow, opponentTracker])
   
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
@@ -133,13 +162,43 @@ function Game(prop) {
     </div>
   ));
 
+  const opponentRow = rowArray.map(index => (
+    <div className='container__row'>
+      {
+        index < opponentTracker.length
+          ? colArray.map(colIndex => (
+            <div className={`col--small ${opponentTracker[index][colIndex].color}`}></div>
+          ))
+          : colArray.map(colIndex => (
+            <div className='col--small'></div>
+          ))
+      }
+    </div>
+  ))
+
+  const keys = arr => {
+    return arr.map(obj => (
+      <div className={`key__btn ${obj.color}`}>{obj.button}</div>
+    ))
+  }
+
+  const keyboard = layout.map(arr => (
+    <div className='container__row'>
+      {keys(arr)}
+    </div>
+  ))
+
   return (
     <div className='div__game'>
-      <div className='container__game'>
-        <div>{disconnect ? 'Opponent Disconnected' : ''}</div>
+      <div>  
         <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
-        <div>{rows}</div>
+        <div>{disconnect ? 'Opponent Disconnected' : ''}</div>
+        <div className='container__game'>
+          <div>{rows}</div>
+          <div>{opponentRow}</div>
+        </div>
       </div>
+      {keyboard}
       <Result result={result} user={prop.user} setResult={setResult} display={display} setID={prop.setID} />
     </div>
   )
