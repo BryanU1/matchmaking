@@ -1,6 +1,37 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-function MatchForm(prop) {
+function MatchForm(prop) { 
+  const [queueTimer, setQueueTimer] = useState();
+  const [counter, setCounter] = useState(5);
+
+  // countdown display for player status check
+  useEffect(() => {
+    let intervalID;
+    if (prop.display && counter > 0) {
+      intervalID = setInterval(() => {
+        setCounter(counter - 1);
+      }, 1000)
+    }
+    if (!prop.display) {
+      setCounter(5);
+    }
+    return () => {
+      clearInterval(intervalID)
+    }
+  }, [counter, prop.display, queueTimer])
+
+  // Timer for player status check
+  useEffect(() => {
+    if (prop.display) {
+      setQueueTimer(setTimeout(() => {
+        prop.socket.emit('check player status', false, prop.id);
+        console.log('player inactive');
+      }, 5000));
+    }
+    // eslint-disable-next-line
+  }, [prop.display, prop.id])
+
+  // countdown display for starting the match
   useEffect(() => {
     let intervalID;
     if (prop.isCounting) {
@@ -14,7 +45,17 @@ function MatchForm(prop) {
       clearInterval(intervalID);
     }
   }, [prop])
-  
+
+  useEffect(() => {
+    prop.socket.on('player status received', () => {
+      clearTimeout(queueTimer);
+    })
+    return () => {
+      prop.socket.off('player status received');
+    }
+    // eslint-disable-next-line
+  }, [queueTimer])
+
   const handleClick = (e) => {
     if (e.target.textContent === 'Accept') {
       prop.socket.emit('check player status', true, prop.id);
@@ -33,7 +74,7 @@ function MatchForm(prop) {
   } else {
     content =  (
       <div className='modal__content'>
-        <h1>Match Found</h1>
+        <h1>Match Found {counter}</h1>
         <button onClick={handleClick}>Accept</button>
         <button onClick={handleClick}>Decline</button>
       </div>

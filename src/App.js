@@ -24,7 +24,7 @@ function App() {
   const [timer, setTimer] = useState();
   const [isCounting, setIsCounting] = useState(false);
   const [startCount, setStartCount] = useState(3);
-  
+
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
 
