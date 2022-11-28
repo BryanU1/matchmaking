@@ -46,6 +46,7 @@ function MatchForm(prop) {
     }
   }, [prop])
 
+  // clear timer when player submit
   useEffect(() => {
     prop.socket.on('player status received', () => {
       clearTimeout(queueTimer);
@@ -58,9 +59,9 @@ function MatchForm(prop) {
 
   const handleClick = (e) => {
     if (e.target.textContent === 'Accept') {
-      prop.socket.emit('check player status', true, prop.id);
+      prop.socket.emit('check player status', true, prop.id, prop.mode);
     } else {
-      prop.socket.emit('check player status', false, prop.id);
+      prop.socket.emit('check player status', false, prop.id, prop.mode);
     }
   }
 

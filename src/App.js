@@ -24,6 +24,7 @@ function App() {
   const [timer, setTimer] = useState();
   const [isCounting, setIsCounting] = useState(false);
   const [startCount, setStartCount] = useState(3);
+  const [mode, setMode] = useState('');
 
   useEffect(() => {
     localStorage.setItem('token', JSON.stringify(token));
@@ -77,13 +78,13 @@ function App() {
     })
     
     socket.on('cancel match', () => {
-      socket.emit('turn off pairing listener');
+      socket.emit('turn off pairing listener', mode);
       setDisplay(false);
       setID('');
     })
 
     socket.on('start match', () => {
-      socket.emit('turn off pairing listener');
+      socket.emit('turn off pairing listener', mode);
       socket.emit('turn on player disconnected listener');
       setIsCounting(true);
       setTimeout(() => {
@@ -99,7 +100,7 @@ function App() {
       socket.off('cancel match');
       socket.off('start match');
     };
-  }, [])
+  }, [mode])
 
   return (
     <Router>
@@ -125,6 +126,8 @@ function App() {
               setInQueue={setInQueue} 
               inGame={inGame}
               id={id}
+              mode={mode}
+              setMode={setMode}
             />
           } 
         />
@@ -157,6 +160,7 @@ function App() {
         isCounting={isCounting}
         startCount={startCount}
         setStartCount={setStartCount}
+        mode={mode}
       />
     </Router>
   );
