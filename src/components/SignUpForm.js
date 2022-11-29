@@ -22,6 +22,9 @@ function SignUpForm() {
     fetch(url, options)
       .then(response => response.json())
       .then(json => {
+        if (json.errors) {
+          console.log(json.errors);
+        }
         if (json.errors.length === 0) {
           navigate('/');
         } 

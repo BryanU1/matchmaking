@@ -24,6 +24,8 @@ function LogInForm(prop) {
         if (json.token) {
           prop.setToken(json.token);
           navigate('/');
+        } else {
+          console.log(json.message);
         }
       })
       .catch(err => console.log(err));
