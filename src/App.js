@@ -15,10 +15,10 @@ import { io } from 'socket.io-client';
 const socket = io('http://localhost:5000/');
 
 function App() {
-  const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')) || '');
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')) || '');
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')) || {});
   const [inQueue, setInQueue] = useState(false);
-  const [display, setDisplay] = useState(JSON.parse(localStorage.getItem('display')) || false);
+  const [display, setDisplay] = useState(JSON.parse(sessionStorage.getItem('display')) || false);
   const [id, setID] = useState('');
   const [inGame, setInGame] = useState(false);
   const [timer, setTimer] = useState();
@@ -27,7 +27,7 @@ function App() {
   const [mode, setMode] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('token', JSON.stringify(token));
+    sessionStorage.setItem('token', JSON.stringify(token));
 
     if (token) {
       const options = {
@@ -51,7 +51,7 @@ function App() {
   }, [token])
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
   // move this to Game.js
