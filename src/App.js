@@ -43,7 +43,6 @@ function App() {
           setUser(json.authData.user);
         })
         .catch(err => console.log(err));
-      
     }
 
     if (!token) {
@@ -147,6 +146,7 @@ function App() {
               setID={setID}
               timer={timer}
               user={user}
+              setUser={setUser}
               setStartCount={setStartCount}
             />
           }

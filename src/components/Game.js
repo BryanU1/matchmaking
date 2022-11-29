@@ -169,7 +169,7 @@ function Game(prop) {
           ? colArray.map(colIndex => (
             <div className={`col--small ${opponentTracker[index][colIndex].color}`}></div>
           ))
-          : colArray.map(colIndex => (
+          : colArray.map(() => (
             <div className='col--small'></div>
           ))
       }
@@ -199,7 +199,7 @@ function Game(prop) {
         </div>
       </div>
       {keyboard}
-      <Result result={result} user={prop.user} setResult={setResult} display={display} setID={prop.setID} />
+      <Result result={result} user={prop.user} setUser={prop.setUser} setResult={setResult} display={display} setID={prop.setID} />
     </div>
   )
 }

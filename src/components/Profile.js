@@ -22,6 +22,7 @@ function Profile(prop) {
           disabled
         />
       </form>
+      <p>rating: {prop.user.rating}</p>
     </div>
   );
 }
