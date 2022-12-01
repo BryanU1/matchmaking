@@ -37,10 +37,10 @@ function App() {
           'Content-type': 'application/json'
         }
       } 
-      fetch('http://localhost:5000/api/profile', options)
+      fetch(`http://localhost:5000/api/profile`, options)
         .then(res => res.json())
         .then(json => {
-          setUser(json.authData.user);
+          setUser(json.user);
         })
         .catch(err => console.log(err));
     }
@@ -54,7 +54,6 @@ function App() {
     sessionStorage.setItem('user', JSON.stringify(user));
   }, [user])
 
-  // move this to Game.js
   useEffect(() => {
     if (inGame) {
       let timerID = setTimeout(() => {
@@ -133,7 +132,7 @@ function App() {
         <Route path='/leaderboard' element={<Leaderboard />} />
         <Route 
           path='/profile' 
-          element={<Profile token={token} user={user} />} 
+          element={<Profile token={token} user={user} setUser={setUser} />} 
         />
         <Route 
           path={`/match/:id`}

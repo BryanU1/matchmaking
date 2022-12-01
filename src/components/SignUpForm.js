@@ -24,8 +24,13 @@ function SignUpForm() {
       .then(json => {
         if (json.errors) {
           console.log(json.errors);
+          return;
         }
-        if (json.errors.length === 0) {
+        if (json.error) {
+          console.log(json.error);
+          return;
+        }
+        if (json.status === 200) {
           navigate('/');
         } 
       })
