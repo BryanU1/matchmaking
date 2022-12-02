@@ -147,6 +147,7 @@ function App() {
               user={user}
               setUser={setUser}
               setStartCount={setStartCount}
+              mode={mode}
             />
           }
         />

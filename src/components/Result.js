@@ -39,6 +39,7 @@ function Result(prop) {
     <div className={prop.display ? 'modal' : 'modal hidden'}>
       <div className="modal__content">
         <h1>{heading}</h1>
+        <p>{prop.result.message ? prop.result.message : ''}</p>
         <p>Answer: {prop.result.word}</p>
         <p>Current Rating: {ratingDiff > 0 ? `${rating}(+${ratingDiff})` : `${rating}(${ratingDiff})`}</p>
         <button onClick={handleClick}>Leave</button>
