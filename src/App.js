@@ -25,7 +25,13 @@ function App() {
   const [isCounting, setIsCounting] = useState(false);
   const [startCount, setStartCount] = useState(3);
   const [mode, setMode] = useState('');
-  const [opponent, setOpponent] = useState();
+  const [opponent, setOpponent] = useState(
+    {
+      id: '',
+      displayName: '',
+      rating: 0
+    }
+  );
 
   useEffect(() => {
     sessionStorage.setItem('token', JSON.stringify(token));
