@@ -72,6 +72,12 @@ function MatchForm(prop) {
         <p>Starting in...{prop.startCount}</p>
       </div>
     )
+  } else if (prop.isCancelled) {
+    content = (
+      <div className='modal__content'>
+        <p>Match declined</p>
+      </div>
+    )
   } else {
     content =  (
       <div className='modal__content'>

@@ -19,6 +19,7 @@ function App() {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')) || {});
   const [inQueue, setInQueue] = useState(false);
   const [display, setDisplay] = useState(JSON.parse(sessionStorage.getItem('display')) || false);
+  const [isCancelled, setIsCancelled] = useState(false);
   const [id, setID] = useState('');
   const [inGame, setInGame] = useState(false);
   const [timer, setTimer] = useState();
@@ -84,7 +85,11 @@ function App() {
     
     socket.on('cancel match', () => {
       socket.emit('turn off pairing listener', mode);
-      setDisplay(false);
+      setIsCancelled(true);
+      setTimeout(() => {
+        setDisplay(false);
+        setIsCancelled(false);
+      }, 2000);
       setID('');
     })
 
@@ -173,6 +178,7 @@ function App() {
         isCounting={isCounting}
         startCount={startCount}
         setStartCount={setStartCount}
+        isCancelled={isCancelled}
         mode={mode}
       />
     </Router>
