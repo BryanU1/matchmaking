@@ -87,7 +87,14 @@ function Profile(prop) {
             displayInput={displayInput}
             displayChange={displayChange}
           />}
-      <p>rating: {prop.user.rating}</p>
+      <div>
+        <h2>Ranked:</h2>
+        <p>rating: {prop.user.rating}</p>
+        <p>wins: {prop.user.wins}</p>
+        <p>losses: {prop.user.losses}</p>
+        <p>draws: {prop.user.draws}</p>
+        <p>games: {prop.user.games}</p>
+      </div>
     </div>
   );
 }

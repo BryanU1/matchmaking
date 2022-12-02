@@ -8,13 +8,29 @@ function Result(prop) {
     if (Array.isArray(prop.result.ratings)) {
       for (const player of prop.result.ratings) {
         if (player.username === prop.user.username) {
+          let wins = prop.user.wins;
+          let losses = prop.user.losses;
+          let draws = prop.user.draws;
           setRating(player.rating);
           setRatingDiff(player.rating - prop.user.rating);
+          if (player.rating - prop.user.rating > 0) {
+            wins++;
+          }
+          if (player.rating - prop.user.rating < 0) {
+            losses++;
+          }
+          if (player.rating === prop.user.rating) {
+            draws++;
+          }
           const newUser = {
             id: prop.user.id,
             username: prop.user.username,
             displayName: prop.user.displayName,
-            rating: player.rating
+            rating: player.rating,
+            wins,
+            losses,
+            draws,
+            games: prop.user.games + 1,
           }
           prop.setUser(newUser);
         }
