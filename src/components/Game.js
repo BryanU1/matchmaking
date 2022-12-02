@@ -194,8 +194,14 @@ function Game(prop) {
         <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
         <div>{disconnect ? 'Opponent Disconnected' : ''}</div>
         <div className='container__game'>
-          <div>{rows}</div>
-          <div>{opponentRow}</div>
+          <div>
+            <div>{`${prop.user.displayName} (${prop.user.rating})`}</div>
+            <div>{rows}</div>
+          </div>
+          <div>
+            <div>{`${prop.opponent.displayName} (${prop.opponent.rating})`}</div>
+            <div>{opponentRow}</div>
+          </div>
         </div>
       </div>
       {keyboard}
