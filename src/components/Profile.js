@@ -6,6 +6,7 @@ function Profile(prop) {
   const [readOnly, setReadOnly] = useState(true);
   const [userInput, setUserInput] = useState(prop.user.username);
   const [displayInput, setDispInput] = useState(prop.user.displayName);
+  const winRate = Math.round(prop.user.wins / prop.user.games * 1000) / 10; 
 
   const userChange = (e) => {
     setUserInput(e.target.value);
@@ -93,7 +94,7 @@ function Profile(prop) {
         <p>wins: {prop.user.wins}</p>
         <p>Losses: {prop.user.losses}</p>
         <p>Draws: {prop.user.draws}</p>
-        <p>Win Rate: {Math.round(prop.user.wins / prop.user.games * 1000) / 10}%</p>
+        <p>Win Rate: {prop.user.games === 0 ? 0 : winRate}%</p>
       </div>
     </div>
   );
