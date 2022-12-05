@@ -177,9 +177,20 @@ function Game(prop) {
   ))
 
   const keys = arr => {
-    return arr.map(obj => (
-      <div className={`key__btn ${obj.color}`}>{obj.button}</div>
-    ))
+    return arr.map(obj => {
+      if (obj.button === 'Enter' || obj.button === 'Delete') {
+        return (
+          <div className={`key__btn ${obj.color} long__btn`}>
+            {obj.button}
+          </div>
+        )
+      }
+      return (
+        <div className={`key__btn ${obj.color}`}>
+          {obj.button}
+        </div>
+      )
+    })
   }
 
   const keyboard = layout.map(arr => (
@@ -191,14 +202,16 @@ function Game(prop) {
   return (
     <div className='div__game'>
       <div>  
-        <div>{min}:{sec < 10 ? '0' + sec : sec}</div>
-        <div>{disconnect ? 'Opponent Disconnected' : ''}</div>
+        <div className='game__timer'>{min}:{sec < 10 ? '0' + sec : sec}</div>
         <div className='container__game'>
-          <div>
-            <div>{`${prop.user.displayName} (${prop.user.rating})`}</div>
+          <div className='player1__container'>
+            <div className='game__player-name'>{`${prop.user.displayName} (${prop.user.rating})`}</div>
             <div>{rows}</div>
           </div>
-          <div>
+          <div className='player2__container'>
+            <div>
+              {disconnect ? 'Opponent Disconnected' : ''}
+            </div>
             <div>{`${prop.opponent.displayName} (${prop.opponent.rating})`}</div>
             <div>{opponentRow}</div>
           </div>

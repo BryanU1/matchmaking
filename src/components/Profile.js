@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import UpdateForm from './UpdateForm';
 import ReadForm from './ReadForm';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+import uniqid from 'uniqid';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Profile(prop) {
   const [readOnly, setReadOnly] = useState(true);
   const [userInput, setUserInput] = useState(prop.user.username);
   const [displayInput, setDispInput] = useState(prop.user.displayName);
+  const [error, setError] = useState([]);
+  const [errors, setErrors] = useState([]);
   const winRate = Math.round(prop.user.wins / prop.user.games * 1000) / 10; 
 
   const userChange = (e) => {
@@ -23,6 +30,10 @@ function Profile(prop) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setError([]);
+    setErrors([]);
+
     const url = `http://localhost:5000/user/${prop.user.id}/update`;
     const data = {
       "username": e.target.username.value,
@@ -41,11 +52,11 @@ function Profile(prop) {
       .then(res => res.json())
       .then(json => {
         if (json.errors) {
-          console.log(json.errors);
+          setErrors(json.errors);
           return;
         }
         if (json.error) {
-          console.log(json.error);
+          setError(json.error);
           return;
         }
         setReadOnly(true);
@@ -66,6 +77,30 @@ function Profile(prop) {
           .catch(err => console.log(err));
       })
   }
+
+  const data = {
+    labels: ['Wins', 'Losses', 'Draws'],
+    datasets: [
+      {
+        data: [prop.user.wins,prop.user.losses,prop.user.draws],
+        backgroundColor: [
+          'rgb(54, 162, 235)',
+          'rgb(255, 99, 132)',
+          'rgb(88, 88, 88)'
+        ],
+        hoverOffset: 4
+      }
+    ]
+  }
+
+  const errorsMsg = errors.map(err => (
+    <li key={uniqid()} className='error__message'>{err.msg}</li>
+  ))
+
+  const errMsg = error.map(err => (
+    <li key={uniqid()} className='error__message'>{err}</li>
+  ))
+
   if (!prop.token) {
     return (
       <div>
@@ -74,7 +109,18 @@ function Profile(prop) {
     );
   }
   return (
-    <div>
+    <div className='profile__container'>
+      <div className='profile__ranked'>
+        <h2 className='profile__h2'>Ranked:</h2>
+        <p>Rating: {prop.user.rating}</p>
+        <p>Wins: {prop.user.wins}</p>
+        <p>Losses: {prop.user.losses}</p>
+        <p>Draws: {prop.user.draws}</p>
+        <p>Win Rate: {prop.user.games === 0 ? 0 : winRate}%</p>
+      </div>
+      <div className='chart'>
+        <Doughnut data={data} />
+      </div>
       {readOnly 
         ? <ReadForm 
             handleClick={handleClick}
@@ -87,15 +133,10 @@ function Profile(prop) {
             userChange={userChange}
             displayInput={displayInput}
             displayChange={displayChange}
-          />}
-      <div>
-        <h2>Ranked:</h2>
-        <p>Rating: {prop.user.rating}</p>
-        <p>wins: {prop.user.wins}</p>
-        <p>Losses: {prop.user.losses}</p>
-        <p>Draws: {prop.user.draws}</p>
-        <p>Win Rate: {prop.user.games === 0 ? 0 : winRate}%</p>
-      </div>
+            errorsMsg={errorsMsg}
+            errMsg={errMsg}
+          />
+      }
     </div>
   );
 }

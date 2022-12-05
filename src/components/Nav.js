@@ -1,45 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Nav(prop) {
-  let user;
+  const navigate = useNavigate();
   const handleLogOut = () => {
     prop.setToken('');
-  }
-  if (!prop.token) {
-    user = (
-      <Link to='/login' className='nav__link'>
-        <div className='btn__log-in'>Log In</div>
-      </Link>
-    )
-  } else {
-    user = (
-      <div 
-        onClick={handleLogOut} 
-        className='btn__log-out'
-      >
-          Log Out
-      </div>
-    )
+    navigate('/');
   }
   return (
-    <nav className='nav nav--theme-black'>
+    <nav className='nav'>
       <div className='nav__items'>
-        <Link to='/' className='nav__link' >
-          <h1 className='h1__home'>Home</h1>
-        </Link>
         <ul className='menu'>
-          <Link to='/play' className='nav__link' >
+          <Link to='/' className='nav__link menu__home'>
             <li className='menu__item'>Play</li>
-          </Link>
-          <Link to='/leaderboard' className='nav__link'>
-            <li className='menu__item'>Leaderboard</li>
           </Link>
           <Link to='/profile' className='nav__link'>
             <li className='menu__item'>Profile</li>
           </Link>
+          <Link to='/leaderboard' className='nav__link'>
+            <li className='menu__item'>Leaderboard</li>
+          </Link>
         </ul>
       </div>
-      {user}
+      <div onClick={handleLogOut} className='btn__log-out'>
+        Log Out
+      </div>
     </nav>
   );
 }

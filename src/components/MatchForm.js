@@ -75,15 +75,16 @@ function MatchForm(prop) {
   } else if (prop.isCancelled) {
     content = (
       <div className='modal__content'>
-        <p>Match declined</p>
+        <h1 className='modal__h1'>Match Declined</h1>
       </div>
     )
   } else {
     content =  (
       <div className='modal__content'>
-        <h1>Match Found {counter}</h1>
-        <button onClick={handleClick}>Accept</button>
-        <button onClick={handleClick}>Decline</button>
+        <h1 className='modal__h1'>Match Found</h1>
+        <p className='modal__p'>Closing in {counter}</p>
+        <button className='modal__btn btn-black' onClick={handleClick}>Accept</button>
+        <button className='modal__btn btn-red' onClick={handleClick}>Decline</button>
       </div>
     )
   }

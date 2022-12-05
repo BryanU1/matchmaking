@@ -8,7 +8,6 @@ function Leaderboard() {
     fetch(url)
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         setPlayers(json);
       })
   }, [])
@@ -22,9 +21,9 @@ function Leaderboard() {
   ))
 
   return (
-    <div>
-      <h1>Leaderboard</h1>
-      <table>
+    <div className='leaderboard__container'>
+      <h1 className='leaderboard__heading'>Top 100</h1>
+      <table className='leaderboard__table'>
         <thead>
           <tr>
             <th>#</th>

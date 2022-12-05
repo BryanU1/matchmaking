@@ -38,14 +38,33 @@ function Play(prop) {
   }, [prop.inGame, prop.id])
 
   if (prop.inQueue) {
-    queueUI = <button onClick={handleLeave}>Leave Queue</button>
-  } else if (prop.token) {
     queueUI = (
       <div>
-        <p>Normal:</p>
-        <button onClick={handleNormQueue}>Join Queue</button>
-        <p>Ranked:</p>
-        <button onClick={handleRankedQueue}>Join Queue</button>
+        <h1>In Queue...</h1>
+        <button className="btn__queue" onClick={handleLeave}>
+          Leave Queue
+        </button>
+      </div>
+    )
+  } else if (prop.token) {
+    queueUI = (
+      <div className="queue__container">
+        <div className="queue__content">
+          <h1 className="queue__heading">Casual</h1>
+          <p className="queue__p">Time: 5 minutes</p>
+          <p className="queue__p">Win: +0 rating</p>
+          <p className="queue__p">Lose: -0 rating</p>
+          <p className="queue__p">Draw: +0 rating</p>
+          <button className="btn__queue" onClick={handleNormQueue}>PLAY</button>
+        </div>
+        <div className="queue__content">
+          <h1 className="queue__heading">Ranked</h1>
+          <p className="queue__p">Time: 2 minutes</p>
+          <p className="queue__p">Win: +15 rating</p>
+          <p className="queue__p">Lose: -15 rating</p>
+          <p className="queue__p">Draw: +0 rating</p>
+          <button className="btn__queue" onClick={handleRankedQueue}>PLAY</button>
+        </div>
       </div>
     )
   } else {
@@ -53,7 +72,7 @@ function Play(prop) {
   }
 
   return (
-    <div>
+    <div className="div__queue">
       {queueUI}
     </div>
   )

@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Nav from './components/Nav';
-import Home from './components/Home';
 import LogInForm from './components/LogInForm';
 import SignUpForm from './components/SignUpForm';
 import Play from './components/Play';
@@ -117,59 +116,66 @@ function App() {
     };
   }, [mode, user])
 
+  if (!token) {
+    return (
+      <Router>
+        <Routes>
+          <Route 
+            path='/' 
+            element={
+              <LogInForm setToken={setToken} />
+            } 
+          />
+          <Route path='/signup' element={<SignUpForm />} />
+        </Routes>
+      </Router>
+    );
+  }
+
   return (
     <Router>
       <div className="App">
         <Nav token={token} setToken={setToken} />
+        <Routes>
+          <Route 
+            path='/' 
+            exact 
+            element={<Play 
+                      token={token} 
+                      socket={socket} 
+                      inQueue={inQueue}
+                      setInQueue={setInQueue} 
+                      inGame={inGame}
+                      id={id}
+                      mode={mode}
+                      setMode={setMode}
+                    />}
+          />
+          <Route path='/leaderboard' element={<Leaderboard />} />
+          <Route 
+            path='/profile' 
+            element={<Profile token={token} user={user} setUser={setUser} />} 
+          />
+          <Route 
+            path={`/match/:id`}
+            element={
+              <Game 
+                inGame={inGame}
+                setInGame={setInGame}
+                socket={socket}
+                id={id}
+                setID={setID}
+                timer={timer}
+                user={user}
+                setUser={setUser}
+                opponent={opponent}
+                setStartCount={setStartCount}
+                mode={mode}
+              />
+            }
+          />
+        </Routes>
       </div>
-      <Routes>
-        <Route path='/' exact element={<Home />} />
-        <Route path='/signup' element={<SignUpForm />} />
-        <Route 
-          path='/login' 
-          element={
-            <LogInForm setToken={setToken} />
-          } 
-        />
-        <Route 
-          path='/play' 
-          element={
-            <Play 
-              token={token} 
-              socket={socket} 
-              inQueue={inQueue}
-              setInQueue={setInQueue} 
-              inGame={inGame}
-              id={id}
-              mode={mode}
-              setMode={setMode}
-            />
-          } 
-        />
-        <Route path='/leaderboard' element={<Leaderboard />} />
-        <Route 
-          path='/profile' 
-          element={<Profile token={token} user={user} setUser={setUser} />} 
-        />
-        <Route 
-          path={`/match/:id`}
-          element={
-            <Game 
-              inGame={inGame}
-              setInGame={setInGame}
-              socket={socket}
-              id={id}
-              setID={setID}
-              timer={timer}
-              user={user}
-              setUser={setUser}
-              opponent={opponent}
-              setStartCount={setStartCount}
-              mode={mode}
-            />
-          }
-        />
-      </Routes>
       <MatchForm 
         display={display}
         setDisplay={setDisplay}
