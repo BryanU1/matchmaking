@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 function MatchForm(prop) { 
   const [queueTimer, setQueueTimer] = useState();
   const [counter, setCounter] = useState(5);
+  const [hasPicked, setHasPicked] = useState(false);
 
   // countdown display for player status check
   useEffect(() => {
@@ -14,6 +15,7 @@ function MatchForm(prop) {
     }
     if (!prop.display) {
       setCounter(5);
+      setHasPicked(false);
     }
     return () => {
       clearInterval(intervalID)
@@ -63,13 +65,16 @@ function MatchForm(prop) {
     } else {
       prop.socket.emit('check player status', false, prop.id, prop.mode);
     }
+    setHasPicked(true);
   }
 
   let content;
   if (prop.isCounting) {
     content = (
       <div className='modal__content'>
-        <p>Starting in...{prop.startCount}</p>
+        <h1 className='modal__h1'>
+          Starting in...{prop.startCount}
+        </h1>
       </div>
     )
   } else if (prop.isCancelled) {
@@ -78,12 +83,20 @@ function MatchForm(prop) {
         <h1 className='modal__h1'>Match Declined</h1>
       </div>
     )
+  } else if (hasPicked) {
+    content = (
+      <div className='modal__content'>
+        <h1 className='modal__h1'>
+          Waiting For Other Player...
+        </h1>
+      </div>
+    )
   } else {
     content =  (
       <div className='modal__content'>
         <h1 className='modal__h1'>Match Found</h1>
         <p className='modal__p'>Closing in {counter}</p>
-        <button className='modal__btn btn-black' onClick={handleClick}>Accept</button>
+        <button className='modal__btn' onClick={handleClick}>Accept</button>
         <button className='modal__btn btn-red' onClick={handleClick}>Decline</button>
       </div>
     )

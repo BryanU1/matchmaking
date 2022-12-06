@@ -2,13 +2,14 @@
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  color: rgb(51, 48, 87);
 }
 
 .nav {
   padding: 20px;
   align-self: start;
   display: flex;
-  color: rgb(59, 59, 59);
+  color: rgb(51, 48, 87);
   align-items: center;
   justify-content: flex-start;
 }
@@ -24,7 +25,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: rgb(53, 53, 53);
+  color: rgb(51, 48, 87);
 }
 .nav__link:hover {
   cursor: pointer;
@@ -51,8 +52,13 @@
   width: 100px;
   height: 60px;
   background-color: rgb(51, 48, 87);
+  border: 2px rgb(51, 48, 87) solid;
   color: white;
   border-radius: 5px;
+}
+.menu__home:hover {
+  background-color: white;
+  color: black;
 }
 
 .btn__log-out {
@@ -104,10 +110,14 @@
   padding: 10px;
   margin-bottom: 10px;
   font-size: 18px;
-  border: none;
+  color: white;
+  border: 2px rgb(51, 48, 87) solid;
+  background-color: rgb(51, 48, 87);
 }
 .modal__btn:hover {
   cursor: pointer;
+  background-color: white;
+  color: black;
 }
 
 .div__game {
@@ -213,6 +223,7 @@
   align-self: center;
   display: flex;
   justify-content: center;
+  color: rgb(51, 48, 87);
 }
 
 .queue__container {
@@ -226,7 +237,7 @@
   flex-direction: column;
   padding: 75px;
   margin: 10px;
-  border: 1px black solid;
+  border: 1px rgb(51, 48, 87) solid;
 }
 
 .queue__heading {
@@ -243,8 +254,8 @@
 
 .btn__queue {
   border: none;
-  background-color: rgb(53, 53, 53);
-  border: 1px rgb(53, 53, 53) solid;
+  background-color: rgb(51, 48, 87);
+  border: 2px rgb(51, 48, 87) solid;
   margin-top: 10px;
   padding: 10px;
   color: white;
@@ -252,8 +263,8 @@
 }
 .btn__queue:hover {
   cursor: pointer;
-  color: black;
   background-color: white;
+  color: black;
 }
 
 .profile__container {
@@ -302,8 +313,8 @@
   font-size: 18px;
   padding: 10px;
   border: none;
-  background-color: black;
-  border: 1px black solid;
+  background-color: rgb(51, 48, 87);
+  border: 2px rgb(51, 48, 87) solid;
   color: white;
 }
 .form__btn:hover {
@@ -417,13 +428,15 @@ td {
   height: 35px;
   margin-top: 10px;
   font-size: 18px;
-  background-color: rgb(255, 245, 152);
-  border: none;
+  background-color: rgb(51, 48, 87);
+  color: white;
+  border: 2px rgb(51, 48, 87) solid;
   border-radius: 5px;
 }
 .auth__btn:hover {
   cursor: pointer;
-  background-color: rgb(185, 185, 185);
+  background-color: white;
+  color: rgb(51, 48, 87);
 }
 
 .hidden {
@@ -440,21 +453,12 @@ td {
 
 .btn-red {
   background-color: rgb(255, 74, 74);
+  border: 2px rgb(51, 48, 87) solid;
   color: white;
 }
 .btn-red:hover {
-  background-color: rgb(255, 189, 189);
-  color: black;
-}
-
-.btn-black {
-  background-color: black;
-  border: 1px black solid;
-  color: white;
-}
-.btn-black:hover {
   background-color: white;
-  color: rgb(0, 0, 0);
+  color: black;
 }
 
 /*# sourceMappingURL=App.css.map */

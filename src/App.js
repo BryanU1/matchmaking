@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Nav from './components/Nav';
 import LogInForm from './components/LogInForm';
 import SignUpForm from './components/SignUpForm';
@@ -62,14 +62,21 @@ function App() {
   }, [user])
 
   useEffect(() => {
+    let time;
+    if (mode === 'normal') {
+      time = 5*60*1000;
+    }
+    if (mode === 'ranked') {
+      time = 2*60*1000
+    }
     if (inGame) {
       let timerID = setTimeout(() => {
-        socket.emit('stalemate', id);
-      }, 5*60*1000);
+        socket.emit('stalemate', id, mode);
+      }, time);
       setTimer(timerID);      
     }
     // eslint-disable-next-line
-  }, [inGame, id])
+  }, [inGame, id, mode])
 
   useEffect(() => {
     socket.on('error', (err) => {
@@ -127,6 +134,10 @@ function App() {
             } 
           />
           <Route path='/signup' element={<SignUpForm />} />
+          <Route 
+            path='*'
+            element={<Navigate to='/' replace />}
+          />
         </Routes>
       </Router>
     );

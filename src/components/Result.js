@@ -58,7 +58,7 @@ function Result(prop) {
         <p className='modal__p'>{prop.result.message ? prop.result.message : ''}</p>
         <p className='modal__p'>Answer: {prop.result.word}</p>
         <p className='modal__p'>Current Rating: {ratingDiff > 0 ? `${rating}(+${ratingDiff})` : `${rating}(${ratingDiff})`}</p>
-        <button className='modal__btn btn-black' onClick={handleClick}>Leave</button>
+        <button className='modal__btn' onClick={handleClick}>Leave</button>
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ function Game(prop) {
   const [display, setDisplay] = useState(false);
   const [disconnect, setDisconnect] = useState(false);
   const [sec, setSec] = useState(0);
-  const [min, setMin] = useState(5);
+  const [min, setMin] = useState(prop.mode === 'normal' ? 5 : 2);
   const keyRow1= [{button: 'Q', color: ''},{button: 'W', color: ''},{button: 'E', color: ''},{button: 'R', color: ''},{button: 'T', color: ''},{button: 'Y', color: ''},{button: 'U', color: ''},{button: 'I', color: ''},{button: 'O', color: ''},{button: 'P', color: ''}];
   const keyRow2 = [{button: 'A', color: ''},{button: 'S', color: ''},{button: 'D', color: ''},{button: 'F', color: ''},{button: 'G', color: ''},{button: 'H', color: ''},{button: 'J', color: ''},{button: 'K', color: ''},{button: 'L', color: ''}];
   const keyRow3 = [{button: 'Enter', color: ''},{button: 'Z', color: ''},{button: 'X', color: ''},{button: 'C', color: ''},{button: 'V', color: ''},{button: 'B', color: ''},{button: 'N', color: ''},{button: 'M', color: ''},{button: 'Delete', color: ''}];

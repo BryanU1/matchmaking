@@ -1,5 +1,7 @@
 $yellow: rgb(255, 245, 152);
 $green: rgb(151, 255, 156);
+$blue: rgb(51, 48, 87);
+$blue-hover: rgb(110, 104, 156);
 
 @mixin hover {
   cursor: pointer;
@@ -10,13 +12,14 @@ $green: rgb(151, 255, 156);
   height: 100%;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
+  color: $blue;
 }
 
 .nav {
   padding: 20px;
   align-self: start;
   display: flex;
-  color: rgb(59, 59, 59);
+  color: $blue;
   align-items: center;
   justify-content: flex-start;
 }
@@ -32,7 +35,7 @@ $green: rgb(151, 255, 156);
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: rgb(53, 53, 53);
+  color: $blue;
 
   &:hover {
     @include hover
@@ -58,9 +61,15 @@ $green: rgb(151, 255, 156);
   align-items: center;
   width: 100px;
   height: 60px;
-  background-color: rgb(51, 48, 87);
+  background-color: $blue;
+  border: 2px $blue solid;
   color: white;
   border-radius: 5px;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
 }
 
 .btn__log-out {
@@ -111,10 +120,14 @@ $green: rgb(151, 255, 156);
   padding: 10px;
   margin-bottom: 10px;
   font-size: 18px;
-  border: none;
+  color: white;
+  border: 2px $blue solid;
+  background-color: $blue;
 
   &:hover {
     cursor: pointer;
+    background-color: white;
+    color: black;
   }
 }
 
@@ -221,6 +234,7 @@ $green: rgb(151, 255, 156);
   align-self: center;
   display: flex;
   justify-content: center;
+  color: $blue;
 }
 
 .queue__container {
@@ -234,7 +248,7 @@ $green: rgb(151, 255, 156);
   flex-direction: column;
   padding: 75px;
   margin: 10px;
-  border: 1px black solid;
+  border: 1px $blue solid;
 }
 
 .queue__heading {
@@ -251,8 +265,8 @@ $green: rgb(151, 255, 156);
 
 .btn__queue {
   border: none;
-  background-color: rgb(53, 53, 53);
-  border: 1px rgb(53, 53, 53) solid;
+  background-color: $blue;
+  border: 2px $blue solid;
   margin-top: 10px;
   padding: 10px;
   color: white;
@@ -260,8 +274,8 @@ $green: rgb(151, 255, 156);
 
   &:hover {
     cursor: pointer;
-    color: black;
     background-color: white;
+    color: black;
   }
 }
 
@@ -311,8 +325,8 @@ $green: rgb(151, 255, 156);
   font-size: 18px;
   padding: 10px;
   border: none;
-  background-color: black;
-  border: 1px black solid;
+  background-color: $blue;
+  border: 2px $blue solid;
   color: white;
 
   &:hover {
@@ -427,13 +441,15 @@ td {
   height: 35px;
   margin-top: 10px;
   font-size: 18px;
-  background-color: $yellow;
-  border: none;
+  background-color: $blue;
+  color: white;
+  border: 2px $blue solid;
   border-radius: 5px;
 
   &:hover {
     cursor: pointer;
-    background-color: rgb(185, 185, 185);
+    background-color: white;
+    color: $blue;
   }
 }
 
@@ -451,20 +467,11 @@ td {
 
 .btn-red {
   background-color: rgb(255, 74, 74);
-  color: white;
-  &:hover {
-    background-color: rgb(255, 189, 189);
-    color: black
-  }
-}
-
-.btn-black {
-  background-color: black;
-  border: 1px black solid;
+  border: 2px $blue solid;
   color: white;
   &:hover {
     background-color: white;
-    color: rgb(0, 0, 0);
+    color: black
   }
 }
 
