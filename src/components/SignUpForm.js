@@ -4,7 +4,7 @@ import uniqid from 'uniqid';
 
 function SignUpForm() {
   const navigate = useNavigate();
-  const url = 'https://competitive-wordle-api.herokuapp.com/sign-up';
+  const url = 'http://competitive-wordle-api.herokuapp.com/sign-up';
   const [error, setError] = useState([]);
   const [errors, setErrors] = useState([]);
 

@@ -1,7 +1,7 @@
 function AuthForm(prop) {
   const url = prop.type === 'Sign Up' ?
-    'https://competitive-wordle-api.herokuapp.com/sign-up' :
-    'https://competitive-wordle-api.herokuapp.com/log-in';
+    'http://competitive-wordle-api.herokuapp.com/sign-up' :
+    'http://competitive-wordle-api.herokuapp.com/log-in';
   return (
     <div>
       <h1>{prop.type}</h1>
