@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function Nav(prop) {
   const navigate = useNavigate();
   const handleLogOut = () => {
+    // Player logged out. Send user to home page.
     prop.setToken('');
     navigate('/');
   }

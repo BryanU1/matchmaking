@@ -64,9 +64,11 @@ function App() {
   useEffect(() => {
     let time;
     if (mode === 'normal') {
+      // 5 minutes
       time = 5*60*1000;
     }
     if (mode === 'ranked') {
+      // 2 minutes
       time = 2*60*1000
     }
     if (inGame) {
@@ -165,7 +167,13 @@ function App() {
           <Route path='/leaderboard' element={<Leaderboard />} />
           <Route 
             path='/profile' 
-            element={<Profile token={token} user={user} setUser={setUser} />} 
+            element={
+              <Profile 
+                token={token} 
+                user={user} 
+                setUser={setUser} 
+              />
+            } 
           />
           <Route 
             path={`/match/:id`}

@@ -22,6 +22,8 @@ function Result(prop) {
           if (player.rating === prop.user.rating) {
             draws++;
           }
+
+          // Create new User object and update user state.
           const newUser = {
             id: prop.user.id,
             username: prop.user.username,
@@ -55,10 +57,27 @@ function Result(prop) {
     <div className={prop.display ? 'modal' : 'modal hidden'}>
       <div className="modal__content">
         <h1 className='modal__h1'>{heading}</h1>
-        <p className='modal__p'>{prop.result.message ? prop.result.message : ''}</p>
+        <p className='modal__p'>
+          {
+            prop.result.message ? prop.result.message : ''
+          }
+        </p>
         <p className='modal__p'>Answer: {prop.result.word}</p>
-        <p className='modal__p'>Current Rating: {ratingDiff > 0 ? `${rating}(+${ratingDiff})` : `${rating}(${ratingDiff})`}</p>
-        <button className='modal__btn' onClick={handleClick}>Leave</button>
+        <p className='modal__p'>
+          Current Rating: 
+          {
+            // Display rating difference.
+            ratingDiff > 0 
+              ? `${rating}(+${ratingDiff})` 
+              : `${rating}(${ratingDiff})`
+          }
+        </p>
+        <button 
+          className='modal__btn' 
+          onClick={handleClick}
+        >
+          Leave
+        </button>
       </div>
     </div>
   )

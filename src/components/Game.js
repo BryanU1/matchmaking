@@ -24,12 +24,17 @@ function Game(prop) {
   const handleKeyDown = (e) => {
     const validInputs = 'abcdefghijklmnopqrstuvwxyz'
     if (e.key === 'Backspace' && input.length > 0) {
+      // Remove a character from input
       setInput(input.slice(0, -1));
-    } 
+    }
+
     if (validInputs.includes(e.key) && input.length < 5) {
       setInput(input + e.key.toUpperCase());
     }
+
+    // Send answer to server.
     if (e.key === 'Enter' && input.length === 5 && currentRow <= 5) {
+      // Check for valid input before sending answer
       const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${input}`;
       fetch(url)
         .then(res => res.json())
@@ -42,6 +47,7 @@ function Game(prop) {
     } 
   }
 
+  // Send user to home page after a refresh.
   useEffect(() => {
     if (!prop.id) {
       navigate('/');
@@ -49,6 +55,7 @@ function Game(prop) {
     // eslint-disable-next-line
   }, [prop.id])
 
+  // Display countdown.
   useEffect(() => {
     const countID = setInterval(() => {
       if (sec > 0) {
@@ -63,8 +70,10 @@ function Game(prop) {
     }
   }, [sec, min])
 
+  // Socket event listeners
   useEffect(() => {
     prop.socket.on('end match', result => {
+      // Reset state
       prop.socket.emit('turn off player disconnected listener');
       setResult(result);
       clearTimeout(prop.timer);
@@ -113,7 +122,6 @@ function Game(prop) {
 
     prop.socket.on('player disconnected', () => {
       setDisconnect(true);
-      console.log('A player has left the match');
     })
 
     return () => {
@@ -131,17 +139,20 @@ function Game(prop) {
     }
     // eslint-disable-next-line
   }, [input, currentRow])
-  
+
+  // Create columns for inputs.
   const selectedCols = colArray.map((index) => (
     <div className='container__col selected'>
       {input.charAt(index)}
     </div>
   ));
 
+  // Create columns without inputs.
   const cols = colArray.map((index) => (
     <div className='container__col'></div>
   ));
 
+  // Display colors for each column.
   const coloredCols = index => {
     const cols = colArray.map(colIndex => (
       <div className={`container__col ${words[index][colIndex].color}`}>
@@ -151,6 +162,7 @@ function Game(prop) {
     return cols;
   }
 
+  // Create rows.
   const rows = rowArray.map((index) => (
     <div className='container__row'>
       {
@@ -162,6 +174,7 @@ function Game(prop) {
     </div>
   ));
 
+  // Display opponent's attempts and colors
   const opponentRow = rowArray.map(index => (
     <div className='container__row'>
       {
@@ -176,6 +189,7 @@ function Game(prop) {
     </div>
   ))
 
+  // Create individual keys with colors
   const keys = arr => {
     return arr.map(obj => {
       if (obj.button === 'Enter' || obj.button === 'Delete') {
@@ -193,6 +207,7 @@ function Game(prop) {
     })
   }
 
+  // Display the entire keyboard
   const keyboard = layout.map(arr => (
     <div className='container__row'>
       {keys(arr)}

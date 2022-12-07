@@ -6,12 +6,14 @@ function Play(prop) {
   let queueUI;
 
   const handleNormQueue = () => {
+    // Player picked normal queue. Emit event with queue information.
     prop.setMode('normal');
     prop.setInQueue(true);
     prop.socket.emit('join queue', prop.token, 'normal');
   }
 
   const handleRankedQueue = () => {
+    // Player picked ranked queue. Emit event with queue information.
     prop.setMode('ranked')
     prop.setInQueue(true);
     prop.socket.emit('join queue', prop.token, 'ranked');
@@ -55,7 +57,12 @@ function Play(prop) {
           <p className="queue__p">Win: +0 rating</p>
           <p className="queue__p">Lose: -0 rating</p>
           <p className="queue__p">Draw: +0 rating</p>
-          <button className="btn__queue" onClick={handleNormQueue}>PLAY</button>
+          <button 
+            className="btn__queue" 
+            onClick={handleNormQueue}
+          >
+            PLAY
+          </button>
         </div>
         <div className="queue__content">
           <h1 className="queue__heading">Ranked</h1>
@@ -63,7 +70,12 @@ function Play(prop) {
           <p className="queue__p">Win: +15 rating</p>
           <p className="queue__p">Lose: -15 rating</p>
           <p className="queue__p">Draw: +0 rating</p>
-          <button className="btn__queue" onClick={handleRankedQueue}>PLAY</button>
+          <button 
+            className="btn__queue" 
+            onClick={handleRankedQueue}
+          >
+            PLAY
+          </button>
         </div>
       </div>
     )

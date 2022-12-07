@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 function Leaderboard() {
   const [players, setPlayers] = useState([]);
 
+  // Fetch data from server.
   useEffect(() => {
     const url = 'http://localhost:5000/api/leaderboard';
     fetch(url)
@@ -12,6 +13,7 @@ function Leaderboard() {
       })
   }, [])
 
+  // Display row for each individual player.
   const leaderboard = players.map((player, index) => (
     <tr key={index}>
       <td>{index + 1}</td>

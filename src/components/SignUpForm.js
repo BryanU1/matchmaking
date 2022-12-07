@@ -32,7 +32,6 @@ function SignUpForm() {
       .then(json => {
         if (json.errors) {
           setErrors(json.errors);
-          console.log(json.errors);
           return;
         }
         if (json.error) {
@@ -59,15 +58,36 @@ function SignUpForm() {
       <div className='auth__content'>
         <h1 className='auth__h1'>Sign Up</h1>
         <form className='auth__form' onSubmit={handleSubmit}>
-          <label className='auth__label' htmlFor='username'>Username:</label>
-          <input className='auth__input' id='username' name='username'/>
-          <label className='auth__label' htmlFor='password'>Password:</label>
-          <input className='auth__input' id='password' name='password' type='password'/>
+          <label 
+            className='auth__label'
+            htmlFor='username'
+          >
+            Username:
+          </label>
+          <input 
+            className='auth__input' 
+            id='username' 
+            name='username'
+          />
+          <label 
+            className='auth__label' 
+            htmlFor='password'
+          >
+            Password:
+          </label>
+          <input 
+            className='auth__input' 
+            id='password' 
+            name='password' 
+            type='password'
+          />
           <ul className='err__container'>
             {errorsMsg}
             {errMsg}
           </ul>
-          <button className='auth__btn' type="submit">Sign Up</button>
+          <button className='auth__btn' type="submit">
+            Sign Up
+          </button>
         </form>
         <p>Or log in <a href="/">here</a></p>
       </div>
