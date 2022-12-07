@@ -24,7 +24,7 @@ function LogInForm(prop) {
     }
 
     // Send log in information to server.
-    fetch('http://localhost:5000/log-in', options)
+    fetch('https://competitive-wordle-api.herokuapp.com/log-in', options)
       .then(response => response.json())
       .then(json => {
         if (json.token) {
