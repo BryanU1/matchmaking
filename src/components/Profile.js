@@ -34,7 +34,7 @@ function Profile(prop) {
     setError([]);
     setErrors([]);
 
-    const url = `http://competitive-wordle-api.herokuapp.com/user/${prop.user.id}/update`;
+    const url = `https://competitive-wordle-api.herokuapp.com/user/${prop.user.id}/update`;
     const data = {
       "username": e.target.username.value,
       "displayName": e.target.displayName.value
@@ -69,7 +69,7 @@ function Profile(prop) {
             'Content-type': 'application/json'
           }
         } 
-        fetch(`http://competitive-wordle-api.herokuapp.com/api/profile`, options)
+        fetch(`https://competitive-wordle-api.herokuapp.com/api/profile`, options)
           .then(res => res.json())
           .then(json => {
             prop.setUser(json.user);

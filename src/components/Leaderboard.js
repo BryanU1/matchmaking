@@ -5,7 +5,7 @@ function Leaderboard() {
 
   // Fetch data from server.
   useEffect(() => {
-    const url = 'http://competitive-wordle-api.herokuapp.com/api/leaderboard';
+    const url = 'https://competitive-wordle-api.herokuapp.com/api/leaderboard';
     fetch(url)
       .then(res => res.json())
       .then(json => {
