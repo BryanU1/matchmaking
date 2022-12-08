@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Result from './Result';
+import uniqid from 'uniqid';
 
 function Game(prop) {
   const navigate = useNavigate();
@@ -142,20 +143,20 @@ function Game(prop) {
 
   // Create columns for inputs.
   const selectedCols = colArray.map((index) => (
-    <div className='container__col selected'>
+    <div key={uniqid()} className='container__col selected'>
       {input.charAt(index)}
     </div>
   ));
 
   // Create columns without inputs.
   const cols = colArray.map((index) => (
-    <div className='container__col'></div>
+    <div key={uniqid()} className='container__col'></div>
   ));
 
   // Display colors for each column.
   const coloredCols = index => {
     const cols = colArray.map(colIndex => (
-      <div className={`container__col ${words[index][colIndex].color}`}>
+      <div key={uniqid()} className={`container__col ${words[index][colIndex].color}`}>
         {words[index][colIndex].letter}
       </div>
     ))
@@ -164,7 +165,7 @@ function Game(prop) {
 
   // Create rows.
   const rows = rowArray.map((index) => (
-    <div className='container__row'>
+    <div key={uniqid()} className='container__row'>
       {
         currentRow === index ? selectedCols : 
           index < currentRow 
@@ -176,7 +177,7 @@ function Game(prop) {
 
   // Display opponent's attempts and colors
   const opponentRow = rowArray.map(index => (
-    <div className='container__row'>
+    <div key={uniqid()} className='container__row'>
       {
         index < opponentTracker.length
           ? colArray.map(colIndex => (
@@ -194,13 +195,13 @@ function Game(prop) {
     return arr.map(obj => {
       if (obj.button === 'Enter' || obj.button === 'Delete') {
         return (
-          <div className={`key__btn ${obj.color} long__btn`}>
+          <div key={uniqid()} className={`key__btn ${obj.color} long__btn`}>
             {obj.button}
           </div>
         )
       }
       return (
-        <div className={`key__btn ${obj.color}`}>
+        <div key={uniqid()} className={`key__btn ${obj.color}`}>
           {obj.button}
         </div>
       )
@@ -209,7 +210,7 @@ function Game(prop) {
 
   // Display the entire keyboard
   const keyboard = layout.map(arr => (
-    <div className='container__row'>
+    <div key={uniqid()} className='container__row'>
       {keys(arr)}
     </div>
   ))
