@@ -92,7 +92,7 @@ function Game(prop) {
     prop.socket.on('incorrect', obj => {
       if (obj.user === prop.user.username) {
         if (currentRow === 5) {
-          prop.socket.emit('stalemate', prop.id);
+          prop.socket.emit('stalemate', prop.id, prop.mode);
         }
         outerLoop: for (const char of obj.arr) {
           for (let i = 0; i < layout.length; i++) {
