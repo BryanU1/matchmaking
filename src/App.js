@@ -11,7 +11,7 @@ import Game from './components/Game';
 import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('https://competitive-wordle-api.herokuapp.com/');
+const socket = io('https://competitive-wordle-api.herokuapp.com:80');
 
 function App() {
   const [token, setToken] = useState(JSON.parse(sessionStorage.getItem('token')) || '');
