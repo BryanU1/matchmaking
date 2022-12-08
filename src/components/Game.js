@@ -181,10 +181,10 @@ function Game(prop) {
       {
         index < opponentTracker.length
           ? colArray.map(colIndex => (
-            <div className={`col--small ${opponentTracker[index][colIndex].color}`}></div>
+            <div key={uniqid()} className={`col--small ${opponentTracker[index][colIndex].color}`}></div>
           ))
           : colArray.map(() => (
-            <div className='col--small'></div>
+            <div key={uniqid()} className='col--small'></div>
           ))
       }
     </div>
